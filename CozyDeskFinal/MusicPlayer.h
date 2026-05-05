@@ -10,8 +10,8 @@ class MusicPlayer : public QObject
 public:
 	explicit MusicPlayer(QObject* ptr = nullptr);
 	void loadfiles(QStringList file);
-	void play();
-	void pause();
+	void playSong();
+	void pauseSong();
 	void nextSong();
 	void prevSong();
 	void setVolume(int v);
