@@ -8,7 +8,5 @@ class MusicPlayer : public QObject
 {
 	Q_OBJECT
 
-
-
 };
 
