@@ -5,6 +5,7 @@ MusicPlayer::MusicPlayer(QObject* p) : QObject(p) {
 	ao = new QAudioOutput(this);
 	mp->setAudioOutput(ao);
 	songIndex = 0;
+	check = false;
 
 
 	connect(mp, &QMediaPlayer::positionChanged, this, &MusicPlayer::positionChange);
@@ -26,10 +27,14 @@ void MusicPlayer::setVolume(int v) {
 
 void MusicPlayer::playSong() {
 	mp->play();
+	if (check == true) {
+		emit isplaying(true);
+	}
 }
 
 void MusicPlayer::pauseSong() {
 	mp->pause();
+	emit isplaying(false);
 }
 
 void MusicPlayer::nextSong() {
@@ -55,6 +60,7 @@ void MusicPlayer::loadfiles(QStringList f) {
 		playlist = f;
 		songIndex = 0;
 		mp->setSource(QUrl::fromLocalFile(playlist[songIndex]));
+		check = true;
 	}
 }
 

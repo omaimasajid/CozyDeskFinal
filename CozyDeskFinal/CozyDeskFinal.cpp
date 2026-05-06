@@ -69,6 +69,8 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
 
     pet = new petwidget(ui.petFrame);
     pet->setGeometry(0, 0, ui.petFrame->width(), ui.petFrame->height());
+
+    connect(MP, &MusicPlayer::isplaying, pet, &petwidget::isPetListening);
 }
 
 

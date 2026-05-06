@@ -22,10 +22,12 @@ signals:
 	void positionChange(qint64 p);
 	void durationChange(qint64 d);
 	void songChange(QString name);
+	void isplaying(bool play);
 private:
 	QMediaPlayer* mp;
 	QAudioOutput* ao;
 	QStringList playlist;
 	int songIndex;
+	bool check;
 };
 

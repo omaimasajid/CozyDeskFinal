@@ -8,23 +8,37 @@
 petwidget::petwidget(QWidget* parent): QLabel(parent){
 	idlePix = QPixmap("petsprites/idle.png");
 	hoverPix = QPixmap("petsprites/hover.png");
-	listeningPix = QPixmap("petsprites/listening.png");
+	listeningPix = QPixmap("petsprites/music.png");
 	currentState = Idle;
 	setPixmap(idlePix);
 	setScaledContents(true);
     }
 
 void petwidget::enterEvent(QEnterEvent* event){
-	setPixmap(hoverPix);
-	currentState= Hover;
+	if (currentState != Listening) {
+		setPixmap(hoverPix);
+		currentState = Hover;
+	}
 }
 
 void petwidget::leaveEvent(QEvent* event) {
-	setPixmap(idlePix);
-	currentState = Idle;
+	if(currentState != Listening) {
+		setPixmap(idlePix);
+		currentState = Idle;
+	}
 }
 
 void petwidget::isPetListening(bool listening) {
+	if (listening == true) {
+		setPixmap(listeningPix);
+		currentState = Listening;
 
+	}
+	if(listening == false) {
+		setPixmap(idlePix);
+		currentState = Idle;
+	}
 }
+
+
 
