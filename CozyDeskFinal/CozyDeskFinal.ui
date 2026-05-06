@@ -17,9 +17,9 @@
    <widget class="QFrame" name="petFrame">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>9</y>
-      <width>221</width>
+      <x>30</x>
+      <y>10</y>
+      <width>181</width>
       <height>161</height>
      </rect>
     </property>
@@ -32,9 +32,9 @@
     <widget class="QWidget" name="petholder" native="true">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>0</y>
-       <width>211</width>
+       <width>181</width>
        <height>161</height>
       </rect>
      </property>
