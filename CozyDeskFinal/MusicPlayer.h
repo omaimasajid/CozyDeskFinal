@@ -5,7 +5,6 @@
 #include <QStringList>
 #include <QFileDialog>
 
-
 class MusicPlayer : public QObject
 {
 	Q_OBJECT

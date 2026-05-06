@@ -6,6 +6,7 @@ MusicPlayer::MusicPlayer(QObject* p) : QObject(p) {
 	mp->setAudioOutput(ao);
 	songIndex = 0;
 
+
 	connect(mp, &QMediaPlayer::positionChanged, this, &MusicPlayer::positionChange);
 	connect(mp, &QMediaPlayer::durationChanged, this, &MusicPlayer::durationChange);
 	connect(mp, &QMediaPlayer::sourceChanged, this, [this](const QUrl& url) {

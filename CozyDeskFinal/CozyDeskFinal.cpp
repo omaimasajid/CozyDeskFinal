@@ -1,11 +1,15 @@
 #include "CozyDeskFinal.h"
 #include "MusicPlayer.h"
 #include "Pet.h"
+#include <QTimer>
 
 CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+
+    //music player stuffs
+
     MP = new MusicPlayer(this);
     ui.volSlider->hide();
     ui.playButton->setText("▶");
@@ -18,7 +22,7 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
 
     connect(ui.playButton, &QPushButton::clicked, this, [this]() {
         if (ui.playButton->text() == "▶") {
-            ui.playButton->setText("❚❚");
+            ui.playButton->setText("ⅠⅠ");
             MP->playSong();
         }
         else {
@@ -47,8 +51,28 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
         });
 
     connect(MP, &MusicPlayer::positionChange, this, [this](qint64 p) {
+        ui.playerSlider->blockSignals(true);
         ui.playerSlider->setValue(p * 1000 / MP->getDuration());
+        ui.playerSlider->blockSignals(false);
         });
+
+    connect(MP, &MusicPlayer::durationChange, this, [this](qint64 d) {
+        ui.playerSlider->setMaximum(1000);
+        });
+
+    connect(MP, &MusicPlayer::songChange, this, [this](QString n) {
+        fullSongName = n + "     ";
+        scrollTime->start(600);
+        });
+
+    scrollTime = new QTimer(this);
+
+    connect(scrollTime, &QTimer::timeout, this, [this]() {
+        if (fullSongName.isEmpty()) return;
+        fullSongName = fullSongName.mid(1) + fullSongName.mid(0);
+        ui.songLabel->setText(fullSongName);
+        });
+
 
     // Below this is the stuff for the pet
 
