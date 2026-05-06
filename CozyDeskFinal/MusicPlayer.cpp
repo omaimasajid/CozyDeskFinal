@@ -56,3 +56,8 @@ void MusicPlayer::loadfiles(QStringList f) {
 		mp->setSource(QUrl::fromLocalFile(playlist[songIndex]));
 	}
 }
+
+qint64 MusicPlayer::getDuration()
+{
+	return mp->duration();
+}
