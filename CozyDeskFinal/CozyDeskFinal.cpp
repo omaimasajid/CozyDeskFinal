@@ -1,5 +1,6 @@
 #include "CozyDeskFinal.h"
 #include "MusicPlayer.h"
+#include "Pet.h"
 
 CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     : QMainWindow(parent)
@@ -49,6 +50,10 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
         ui.playerSlider->setValue(p * 1000 / MP->getDuration());
         });
 
+    // Below this is the stuff for the pet
+
+    pet = new petwidget(ui.petFrame);
+    pet->setGeometry(0, 0, ui.petFrame->width(), ui.petFrame->height());
 }
 
 

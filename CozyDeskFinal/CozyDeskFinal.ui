@@ -29,6 +29,35 @@
     <property name="frameShadow">
      <enum>QFrame::Shadow::Raised</enum>
     </property>
+    <widget class="QWidget" name="petholder" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>0</y>
+       <width>211</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <widget class="QLabel" name="petwidget">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>20</y>
+        <width>100</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QFrame" name="musicFrame">
     <property name="geometry">

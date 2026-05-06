@@ -93,6 +93,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MusicPlayer.cpp" />
+    <ClCompile Include="Pet.cpp" />
     <QtRcc Include="CozyDeskFinal.qrc" />
     <QtUic Include="CozyDeskFinal.ui" />
     <QtMoc Include="CozyDeskFinal.h" />
@@ -101,6 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MusicPlayer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Pet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
