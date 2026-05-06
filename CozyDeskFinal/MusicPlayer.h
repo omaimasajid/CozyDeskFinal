@@ -3,6 +3,8 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QStringList>
+#include <QFileDialog>
+
 
 class MusicPlayer : public QObject
 {
@@ -16,6 +18,7 @@ public:
 	void prevSong();
 	void setVolume(int v);
 	void setMusicSlider(int v);
+	qint64 getDuration();
 signals:
 	void positionChange(qint64 p);
 	void durationChange(qint64 d);

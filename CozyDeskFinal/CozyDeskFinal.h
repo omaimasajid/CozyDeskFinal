@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_CozyDeskFinal.h"
+#include "MusicPlayer.h"
 
 class CozyDeskFinal : public QMainWindow
 {
@@ -13,5 +14,6 @@ public:
 
 private:
     Ui::CozyDeskFinalClass ui;
+    MusicPlayer* MP;
 };
 
