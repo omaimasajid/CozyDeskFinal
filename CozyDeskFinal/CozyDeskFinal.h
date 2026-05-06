@@ -16,8 +16,6 @@ public:
 private:
     Ui::CozyDeskFinalClass ui;
     MusicPlayer* MP;
-    QTimer* scrollTime;
-    QString fullSongName;
     petwidget* pet;
 };
 

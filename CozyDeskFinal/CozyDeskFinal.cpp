@@ -61,16 +61,7 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
         });
 
     connect(MP, &MusicPlayer::songChange, this, [this](QString n) {
-        fullSongName = n + "     ";
-        scrollTime->start(600);
-        });
-
-    scrollTime = new QTimer(this);
-
-    connect(scrollTime, &QTimer::timeout, this, [this]() {
-        if (fullSongName.isEmpty()) return;
-        fullSongName = fullSongName.mid(1) + fullSongName.mid(0);
-        ui.songLabel->setText(fullSongName);
+        ui.songLabel->setText(n);
         });
 
 
