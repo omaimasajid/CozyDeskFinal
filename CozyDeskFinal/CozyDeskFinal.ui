@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>470</height>
+    <height>497</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -271,7 +271,7 @@ color: black;
       <x>10</x>
       <y>300</y>
       <width>221</width>
-      <height>111</height>
+      <height>131</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -280,6 +280,123 @@ color: black;
     <property name="frameShadow">
      <enum>QFrame::Shadow::Raised</enum>
     </property>
+    <widget class="QPushButton" name="startTime">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>51</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Start</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pauseTime">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>90</y>
+       <width>51</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Pause</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="resetTime">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>90</y>
+       <width>51</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Reset</string>
+     </property>
+    </widget>
+    <widget class="QTimeEdit" name="workTime">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="displayFormat">
+      <string>mm:ss </string>
+     </property>
+    </widget>
+    <widget class="QTimeEdit" name="breakTime">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="displayFormat">
+      <string>mm:ss </string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="timeLabel">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>30</y>
+       <width>49</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>24:00</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="workLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>0</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Work time:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="breakLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Break time:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="sessionLabel">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>60</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Working!</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="todolistFrame">
     <property name="geometry">
@@ -303,7 +420,7 @@ color: black;
       <x>240</x>
       <y>160</y>
       <width>351</width>
-      <height>251</height>
+      <height>271</height>
      </rect>
     </property>
     <property name="frameShape">

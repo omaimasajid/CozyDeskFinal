@@ -6,5 +6,6 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     CozyDeskFinal window;
     window.show();
+    window.setWindowTitle("Cozy Desk");
     return app.exec();
 }

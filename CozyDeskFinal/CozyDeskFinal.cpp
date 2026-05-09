@@ -1,7 +1,8 @@
 #include "CozyDeskFinal.h"
 #include "MusicPlayer.h"
 #include "Pet.h"
-#include <QTimer>
+#include "PomodoroTimer.h"
+#include <QTime>
 
 CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     : QMainWindow(parent)
@@ -71,9 +72,39 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     pet->setGeometry(0, 0, ui.petFrame->width(), ui.petFrame->height());
 
     connect(MP, &MusicPlayer::isplaying, pet, &petwidget::isPetListening);
+
+    // timer stuffs
+
+
+    PT = new PomodoroTimer(this);
+
+    connect(ui.startTime, &QPushButton::clicked, this, [this]() {
+        PT->startTimer();
+    });
+
+    connect(ui.pauseTime, &QPushButton::clicked, this, [this]() {
+        PT->pauseTimer();
+        });
+
+    connect(ui.resetTime, &QPushButton::clicked, this, [this]() {
+        PT->resetTimer();
+        });
+
+    connect(PT, &PomodoroTimer::changeTime, this, [this](QString t) {
+        ui.timeLabel->setText(t);
+        });
+
+    connect(PT, &PomodoroTimer::changeSession, this, [this](QString s) {
+        ui.sessionLabel->setText(s);
+        });
+
+    connect(ui.startTime, &QPushButton::clicked, this, [this]() {
+        int workMins = ui.workTime->time().minute();
+        int breakMins = ui.breakTime->time().minute();
+        PT->setDuration(workMins, breakMins);
+        PT->startTimer();
+        });
 }
-
-
 
 
 CozyDeskFinal::~CozyDeskFinal()

@@ -46,12 +46,18 @@
     <ClCompile Include="Pet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PomodoroTimer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MusicPlayer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Pet.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="PomodoroTimer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
