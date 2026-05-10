@@ -4,6 +4,7 @@
 #include "PomodoroTimer.h"
 #include "Notes.h"
 #include <QTime>
+#include <Qlistwidget>
 
 
 CozyDeskFinal::CozyDeskFinal(QWidget* parent)
@@ -143,6 +144,32 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     connect(ui.btnBold, &QPushButton::clicked, m_notes, &Notes::toggleBold);
     connect(ui.btnHeading, &QPushButton::clicked, m_notes, &Notes::insertHeading);
     connect(ui.btnBullet, &QPushButton::clicked, m_notes, &Notes::insertBullet);
+
+
+
+    // to do list
+
+    connect(ui.addTask, &QPushButton::clicked, this, [this]() {
+        QString task = ui.taskInput->text();
+        if (task.isEmpty()) return;
+        QListWidgetItem* item = new QListWidgetItem(task);
+        item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+        item->setCheckState(Qt::Unchecked);
+        ui.taskList->addItem(item);
+        ui.taskInput->clear();
+        });
+
+    connect(ui.delTask, &QPushButton::clicked, this, [this]() {
+        int row = ui.taskList->currentRow();
+        if (row == -1) return; 
+        ui.taskList->takeItem(row);
+        });
+
+    connect(ui.taskList, &QListWidget::itemChanged, this, [this](QListWidgetItem* item) {
+        QFont font = item->font();
+        font.setStrikeOut(item->checkState() == Qt::Checked);
+        item->setFont(font);
+        });
 }
 
 
