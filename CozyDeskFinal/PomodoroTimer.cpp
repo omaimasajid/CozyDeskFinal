@@ -26,9 +26,9 @@ void PomodoroTimer::onTick() {
 	emit changeTime(time);
 }
 
-void PomodoroTimer::startTimer(int m) {
+void PomodoroTimer::startTimer(int m, int s) {
 	minutes = m;
-	seconds = 0;
+	seconds = s;
 	T->start(1000);
 }
 

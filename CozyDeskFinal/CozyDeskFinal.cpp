@@ -97,12 +97,14 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
 
     connect(ui.startTime, &QPushButton::clicked, this, [this]() {
         int mins = ui.timerSet->time().minute();
-        if (mins == 0) return;
+        int secs = ui.timerSet->time().second();
+        if (mins == 0 && secs == 0) return;
+
         if (ui.workRadio->isChecked())
             ui.sessionLabel->setText("Working!");
         else if (ui.breakRadio->isChecked())
             ui.sessionLabel->setText("Break Time!");
-        PT->startTimer(mins);
+        PT->startTimer(mins, secs);
         });
 
     connect(PT, &PomodoroTimer::playSound, this, [this]() {

@@ -8,7 +8,7 @@ class PomodoroTimer : public QObject
 	Q_OBJECT
 public:
 	PomodoroTimer(QObject* ptr = nullptr);
-	void startTimer(int mins);
+	void startTimer(int mins, int secs);
 	void pauseTimer();
 	void resetTimer();
 signals:
