@@ -74,19 +74,6 @@
     <property name="frameShadow">
      <enum>QFrame::Shadow::Raised</enum>
     </property>
-    <widget class="QLabel" name="songLabel">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>201</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>No song loaded (Click File to load)...</string>
-     </property>
-    </widget>
     <widget class="QSlider" name="playerSlider">
      <property name="geometry">
       <rect>
@@ -190,37 +177,6 @@ color: black;
       <string>◁</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="fileButton">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>60</y>
-       <width>31</width>
-       <height>24</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-    background-color: none;
-    border-radius: none;
-    border: none;
-    font-size: 20px;
-	font-weight: bold;
-    color: #173357;
-}
-QPushButton:hover {
-    background-color: none;
-  color: #486D9C;
-}
-QPushButton:pressed {
-    background-color: none;
-color: black;
-}</string>
-     </property>
-     <property name="text">
-      <string>🗁</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="volButton">
      <property name="geometry">
       <rect>
@@ -262,6 +218,78 @@ color: black;
      </property>
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="songDropdown">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>201</width>
+       <height>24</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="repeatButton">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>60</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    background-color: none;
+    border-radius: none;
+    border: none;
+    font-size: 20px;
+	font-weight: bold;
+    color: #173357;
+}
+QPushButton:hover {
+    background-color: none;
+  color: #486D9C;
+}
+QPushButton:pressed {
+    background-color: none;
+color: black;
+}</string>
+     </property>
+     <property name="text">
+      <string>⟳</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="fileButton">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>80</y>
+       <width>31</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    background-color: none;
+    border-radius: none;
+    border: none;
+    font-size: 15px;
+	font-weight: bold;
+    color: #173357;
+}
+QPushButton:hover {
+    background-color: none;
+  color: #486D9C;
+}
+QPushButton:pressed {
+    background-color: none;
+color: black;
+}</string>
+     </property>
+     <property name="text">
+      <string>🗁</string>
      </property>
     </widget>
    </widget>

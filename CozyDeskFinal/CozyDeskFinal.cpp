@@ -5,6 +5,7 @@
 #include "Notes.h"
 #include <QTime>
 #include <Qlistwidget>
+#include <QFileInfo>
 
 
 CozyDeskFinal::CozyDeskFinal(QWidget* parent)
@@ -37,6 +38,21 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
         QStringList files = QFileDialog::getOpenFileNames(this, "Select a song", "",
             "Audio Files (*.mp3 *.wav *.flac *.ogg)");
         MP->loadfiles(files);
+        ui.songDropdown->blockSignals(true);
+        ui.songDropdown->clear();
+        for (QString file : files) {
+            QFileInfo info(file);
+            ui.songDropdown->addItem(info.fileName());
+        }
+        ui.songDropdown->blockSignals(false);
+        });
+
+    connect(ui.songDropdown, &QComboBox::currentIndexChanged, this, [this](int i) {
+        MP->playSongAt(i);
+        });
+
+    connect(ui.songDropdown, &QComboBox::currentIndexChanged, this, [this](int index) {
+        MP->playSongAt(index);
         });
 
     connect(ui.playButton, &QPushButton::clicked, this, [this]() {
@@ -79,10 +95,32 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
         ui.playerSlider->setMaximum(1000);
         });
 
+   
     connect(MP, &MusicPlayer::songChange, this, [this](QString n) {
-        ui.songLabel->setText(n);
+        ui.songDropdown->blockSignals(true);
+        ui.songDropdown->setCurrentIndex(MP->getSongIndex());
+        ui.songDropdown->blockSignals(false);
         });
 
+
+    connect(ui.repeatButton, &QPushButton::clicked, this, [this]() {
+        MP->toggleRepeat();
+        repeatOn = !repeatOn;
+        if (repeatOn) {
+            ui.repeatButton->setStyleSheet(
+                "QPushButton { background-color: none; border-radius: none; border: none; font-size: 20px; font-weight: bold; color: #5883A7; }"
+                "QPushButton:hover { background-color: none; color: #486D9C; }"
+                "QPushButton:pressed { background-color: none; color: black; }"
+            );
+        }
+        else {
+            ui.repeatButton->setStyleSheet(
+                "QPushButton { background-color: none; border-radius: none; border: none; font-size: 20px; font-weight: bold; color: #173357; }"
+                "QPushButton:hover { background-color: none; color: #486D9C; }"
+                "QPushButton:pressed { background-color: none; color: black; }"
+            );
+        }
+        });
 
     // Below this is the stuff for the pet
 

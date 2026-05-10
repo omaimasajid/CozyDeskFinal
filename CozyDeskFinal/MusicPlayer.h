@@ -17,6 +17,9 @@ public:
 	void prevSong();
 	void setVolume(int v);
 	void setMusicSlider(int v);
+	void playSongAt(int i);
+	int getSongIndex();
+	void toggleRepeat();
 	qint64 getDuration();
 signals:
 	void positionChange(qint64 p);
@@ -28,6 +31,7 @@ private:
 	QAudioOutput* ao;
 	QStringList playlist;
 	int songIndex;
-	bool check;
+	bool check, isRepeat;
+
 };
 

@@ -23,6 +23,7 @@ private:
     Notes* m_notes;
     QMediaPlayer* alarmPlayer;
     QAudioOutput* alarmOutput;
+    bool repeatOn;
 };
 
 

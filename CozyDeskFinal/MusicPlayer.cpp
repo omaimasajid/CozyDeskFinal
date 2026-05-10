@@ -6,12 +6,20 @@ MusicPlayer::MusicPlayer(QObject* p) : QObject(p) {
 	mp->setAudioOutput(ao);
 	songIndex = 0;
 	check = false;
+	isRepeat = false;
 
 
 	connect(mp, &QMediaPlayer::positionChanged, this, &MusicPlayer::positionChange);
 	connect(mp, &QMediaPlayer::durationChanged, this, &MusicPlayer::durationChange);
 	connect(mp, &QMediaPlayer::sourceChanged, this, [this](const QUrl& url) {
 		emit songChange(url.fileName());
+		});
+
+	connect(mp, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
+		if (status == QMediaPlayer::EndOfMedia && isRepeat) {
+			mp->setPosition(0);
+			mp->play();
+		}
 		});
 }
 
@@ -55,6 +63,10 @@ void MusicPlayer::prevSong() {
 	mp->play();
 }
 
+void MusicPlayer::toggleRepeat() {
+	isRepeat = !isRepeat;
+}
+
 void MusicPlayer::loadfiles(QStringList f) {
 	if (!f.isEmpty()) {
 		playlist = f;
@@ -62,6 +74,16 @@ void MusicPlayer::loadfiles(QStringList f) {
 		mp->setSource(QUrl::fromLocalFile(playlist[songIndex]));
 		check = true;
 	}
+}
+
+void MusicPlayer::playSongAt(int i) {
+	songIndex = i;
+	mp->setSource(QUrl::fromLocalFile(playlist[songIndex]));
+	mp->play();
+}
+
+int MusicPlayer::getSongIndex() {
+	return songIndex;
 }
 
 qint64 MusicPlayer::getDuration()
