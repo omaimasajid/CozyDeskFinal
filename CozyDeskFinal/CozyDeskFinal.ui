@@ -284,7 +284,7 @@ color: black;
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>90</y>
+       <y>150</y>
        <width>51</width>
        <height>24</height>
       </rect>
@@ -297,7 +297,7 @@ color: black;
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>90</y>
+       <y>150</y>
        <width>51</width>
        <height>24</height>
       </rect>
@@ -310,7 +310,7 @@ color: black;
      <property name="geometry">
       <rect>
        <x>140</x>
-       <y>90</y>
+       <y>150</y>
        <width>51</width>
        <height>24</height>
       </rect>
@@ -319,24 +319,11 @@ color: black;
       <string>Reset</string>
      </property>
     </widget>
-    <widget class="QTimeEdit" name="workTime">
+    <widget class="QTimeEdit" name="timerSet">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="displayFormat">
-      <string>mm:ss </string>
-     </property>
-    </widget>
-    <widget class="QTimeEdit" name="breakTime">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>60</y>
+       <x>100</x>
+       <y>110</y>
        <width>91</width>
        <height>21</height>
       </rect>
@@ -348,53 +335,53 @@ color: black;
     <widget class="QLabel" name="timeLabel">
      <property name="geometry">
       <rect>
-       <x>130</x>
-       <y>30</y>
+       <x>80</x>
+       <y>60</y>
        <width>49</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>24:00</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="workLabel">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>0</y>
-       <width>81</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Work time:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="breakLabel">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>81</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Break time:</string>
+      <string>00:00</string>
      </property>
     </widget>
     <widget class="QLabel" name="sessionLabel">
      <property name="geometry">
       <rect>
-       <x>120</x>
-       <y>60</y>
-       <width>71</width>
+       <x>20</x>
+       <y>20</y>
+       <width>91</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>Working!</string>
+      <string/>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="workRadio">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>90</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Work timer</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="breakRadio">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>90</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Break timer</string>
      </property>
     </widget>
    </widget>

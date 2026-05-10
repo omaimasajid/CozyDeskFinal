@@ -3,17 +3,10 @@
 PomodoroTimer::PomodoroTimer(QObject* p) : QObject(p) {
 
 	T = new QTimer(this);
-	setWorkMins = 25;
-	setBreakMins = 5;
-
-	minutes = setWorkMins;
+	minutes = 0;
 	seconds = 0;
 
-	sessionCount = 0;
-	session = true;
-
 	connect(T, &QTimer::timeout, this, &PomodoroTimer::onTick);
-
 }
 
 void PomodoroTimer::onTick() {
@@ -23,24 +16,19 @@ void PomodoroTimer::onTick() {
 		minutes--;
 	}
 	if (minutes < 0) {
-		session = !session;
-		if (session == true) {
-			minutes = setWorkMins;
-			sessionCount++;
-			emit changeSession("Working!");
-		}
-		else {
-			minutes = setBreakMins;
-			emit changeSession("Break Time!");
-		}
-		seconds = 0;
+		T->stop();
+		emit playSound();
+		emit changeTime("00:00");
+		return;
 	}
 
 	QString time = QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
-		emit changeTime(time);
+	emit changeTime(time);
 }
 
-void PomodoroTimer::startTimer() {
+void PomodoroTimer::startTimer(int m) {
+	minutes = m;
+	seconds = 0;
 	T->start(1000);
 }
 
@@ -50,17 +38,8 @@ void PomodoroTimer::pauseTimer() {
 
 void PomodoroTimer::resetTimer() {
 	T->stop();
-	minutes = setWorkMins;
+	minutes = 0;
 	seconds = 0;
-	session = true;
-	emit changeSession("Working!");
-	QString time = QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
-	emit changeTime(time);
+	emit changeTime("00:00");
 }
 
-void PomodoroTimer::setDuration(int wM, int bM) {
-	setWorkMins = wM;
-	setBreakMins = bM;
-	minutes = setBreakMins;
-	seconds = 0;
-}

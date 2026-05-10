@@ -8,19 +8,16 @@ class PomodoroTimer : public QObject
 	Q_OBJECT
 public:
 	PomodoroTimer(QObject* ptr = nullptr);
-	void startTimer();
+	void startTimer(int mins);
 	void pauseTimer();
 	void resetTimer();
-	void setDuration(int workMins, int breakMins);
 signals:
 	void changeTime(QString time);
-	void changeSession(QString session);
+	void playSound();
 private slots:
 	void onTick();
 private:
 	QTimer* T;
-	int minutes, seconds, sessionCount, setWorkMins, setBreakMins;
-	bool session;
-
+	int minutes, seconds;
 };
 

@@ -5,10 +5,15 @@
 #include "Notes.h"
 #include <QTime>
 
+
 CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+
+    alarmPlayer = new QMediaPlayer(this);
+    alarmOutput = new QAudioOutput(this);
+    alarmPlayer->setAudioOutput(alarmOutput);
 
   //stuff for he buttons
     ui.btnNewNote->setText("New");
@@ -85,37 +90,45 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
 
     connect(MP, &MusicPlayer::isplaying, pet, &petwidget::isPetListening);
 
-    // timer stuffs
 
+    // timer stuffs
 
     PT = new PomodoroTimer(this);
 
     connect(ui.startTime, &QPushButton::clicked, this, [this]() {
-        PT->startTimer();
-    });
+        int mins = ui.timerSet->time().minute();
+        if (mins == 0) return;
+        if (ui.workRadio->isChecked())
+            ui.sessionLabel->setText("Working!");
+        else if (ui.breakRadio->isChecked())
+            ui.sessionLabel->setText("Break Time!");
+        PT->startTimer(mins);
+        });
+
+    connect(PT, &PomodoroTimer::playSound, this, [this]() {
+        ui.sessionLabel->setText("Done!!");
+        alarmPlayer->setSource(QUrl("qrc:/sound/alarm.wav"));
+        alarmPlayer->play();
+        });
 
     connect(ui.pauseTime, &QPushButton::clicked, this, [this]() {
         PT->pauseTimer();
+        alarmPlayer->stop();
         });
 
     connect(ui.resetTime, &QPushButton::clicked, this, [this]() {
         PT->resetTimer();
+        ui.sessionLabel->setText("");
         });
 
     connect(PT, &PomodoroTimer::changeTime, this, [this](QString t) {
         ui.timeLabel->setText(t);
         });
 
-    connect(PT, &PomodoroTimer::changeSession, this, [this](QString s) {
-        ui.sessionLabel->setText(s);
-        });
+  
 
-    connect(ui.startTime, &QPushButton::clicked, this, [this]() {
-        int workMins = ui.workTime->time().minute();
-        int breakMins = ui.breakTime->time().minute();
-        PT->setDuration(workMins, breakMins);
-        PT->startTimer();
-        });
+
+    //notes 
 
     m_notes = new Notes(ui.notesList, ui.noteEditor, ui.noteTitleEdit, this);
     m_notes->setup();

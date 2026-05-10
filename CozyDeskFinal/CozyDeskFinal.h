@@ -21,6 +21,8 @@ private:
     petwidget* pet;
     PomodoroTimer* PT;
     Notes* m_notes;
+    QMediaPlayer* alarmPlayer;
+    QAudioOutput* alarmOutput;
 };
 
 
