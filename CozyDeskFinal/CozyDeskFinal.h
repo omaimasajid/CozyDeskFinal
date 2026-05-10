@@ -4,6 +4,7 @@
 #include "ui_CozyDeskFinal.h"
 #include "MusicPlayer.h"
 #include "PomodoroTimer.h"
+#include "Notes.h"
 
 
 class CozyDeskFinal : public QMainWindow
@@ -19,6 +20,7 @@ private:
     MusicPlayer* MP;
     petwidget* pet;
     PomodoroTimer* PT;
+    Notes* m_notes;
 };
 
 

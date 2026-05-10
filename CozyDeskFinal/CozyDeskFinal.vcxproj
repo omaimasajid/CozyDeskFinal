@@ -37,7 +37,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>6.11.0_msvc2022_64</QtInstall>
-    <QtModules>core;gui;widgets;multimedia;multimediawidgets</QtModules>
+    <QtModules>core;gui;widgets;multimedia;multimediawidgets;printsupport</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -93,6 +93,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MusicPlayer.cpp" />
+    <ClCompile Include="Notes.cpp" />
     <ClCompile Include="Pet.cpp" />
     <ClCompile Include="PomodoroTimer.cpp" />
     <QtRcc Include="CozyDeskFinal.qrc" />
@@ -109,6 +110,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="PomodoroTimer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Notes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

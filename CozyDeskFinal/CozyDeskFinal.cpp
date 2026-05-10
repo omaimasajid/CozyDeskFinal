@@ -2,12 +2,24 @@
 #include "MusicPlayer.h"
 #include "Pet.h"
 #include "PomodoroTimer.h"
+#include "Notes.h"
 #include <QTime>
 
 CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+
+  //stuff for he buttons
+    ui.btnNewNote->setText("New");
+    ui.btnBold->setText("B");
+    ui.btnHeading->setText("H");
+    ui.btnBullet->setText("*");
+    ui.btnDeleteNote->setText("Del");
+    ui.btnSave->setText("Save");
+    ui.btnExportPdf->setText("PDF");
+    ui.btnExportTxt->setText("TXT");
+
 
     //music player stuffs
 
@@ -104,7 +116,20 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
         PT->setDuration(workMins, breakMins);
         PT->startTimer();
         });
+
+    m_notes = new Notes(ui.notesList, ui.noteEditor, ui.noteTitleEdit, this);
+    m_notes->setup();
+
+    connect(ui.btnNewNote, &QPushButton::clicked, m_notes, &Notes::newNote);
+    connect(ui.btnSave, &QPushButton::clicked, m_notes, &Notes::saveCurrentNote);
+    connect(ui.btnDeleteNote, &QPushButton::clicked, m_notes, &Notes::deleteCurrentNote);
+    connect(ui.btnExportPdf, &QPushButton::clicked, m_notes, &Notes::exportAsPdf);
+    connect(ui.btnExportTxt, &QPushButton::clicked, m_notes, &Notes::exportAsTxt);
+    connect(ui.btnBold, &QPushButton::clicked, m_notes, &Notes::toggleBold);
+    connect(ui.btnHeading, &QPushButton::clicked, m_notes, &Notes::insertHeading);
+    connect(ui.btnBullet, &QPushButton::clicked, m_notes, &Notes::insertBullet);
 }
+
 
 
 CozyDeskFinal::~CozyDeskFinal()
