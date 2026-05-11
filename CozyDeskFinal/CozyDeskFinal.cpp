@@ -6,13 +6,26 @@
 #include <QTime>
 #include <Qlistwidget>
 #include <QFileInfo>
+#include <QFile>
 
 
 CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+    // this is for the fancy style
+    QFile file("style.qss");
+    file.open(QFile::ReadOnly);
+    setStyleSheet(QString(file.readAll()));
+    setFixedSize(1080, 720);
 
+    // background
+
+    QPalette palette;
+    palette.setBrush(QPalette::Window, QPixmap("petsprites/bg.jpg").scaled(size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    setPalette(palette);
+
+    // this is the alarm
     alarmPlayer = new QMediaPlayer(this);
     alarmOutput = new QAudioOutput(this);
     alarmPlayer->setAudioOutput(alarmOutput);
@@ -166,7 +179,7 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
         ui.timeLabel->setText(t);
         });
 
-  
+
 
 
     //notes 

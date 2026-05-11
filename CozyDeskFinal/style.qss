@@ -1,0 +1,121 @@
+QMainWindow {
+    background-image: url(petsprites/bg.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+QFrame {
+    background: rgba(210, 218, 245, 170);
+    border: none;
+    border-radius: 12px;
+}
+
+QPushButton {
+    background: rgba(130, 160, 220, 180);
+    border: 1px solid rgba(100, 130, 200, 150);
+    border-radius: 6px;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 4px 12px;
+    min-height: 22px;
+}
+QPushButton:hover { background: rgba(110, 140, 210, 220); }
+QPushButton:pressed { background: rgba(80, 110, 190, 255); }
+
+QTextEdit, QLineEdit, QSpinBox, QTimeEdit {
+    background: rgba(235, 238, 255, 160);
+    border: 1px solid rgba(100, 130, 200, 100);
+    border-radius: 8px;
+    color: #1a1a3e;
+    padding: 4px;
+}
+
+QSpinBox, QTimeEdit { border-radius: 6px; padding: 2px; }
+
+QListWidget {
+    background: rgba(225, 230, 250, 150);
+    border: 1px solid rgba(100, 130, 200, 100);
+    border-radius: 8px;
+    color: #1a1a3e;
+}
+QListWidget::item:selected {
+    background: rgba(130, 160, 220, 180);
+    color: #ffffff;
+    border-radius: 4px;
+}
+
+QComboBox {
+    background: rgba(210, 218, 245, 180);
+    border: 1px solid rgba(100, 130, 200, 120);
+    border-radius: 6px;
+    color: #1a1a3e;
+    padding: 4px 8px;
+}
+
+QLabel, QCheckBox, QRadioButton {
+    background: transparent;
+    border: none;
+    border-radius: 0px;
+    color: #1a1a3e;
+}
+
+QRadioButton::indicator {
+    width: 13px;
+    height: 13px;
+    border-radius: 7px;
+    border: 2px solid rgba(100, 130, 200, 200);
+    background: white;
+}
+QRadioButton::indicator:checked {
+    background: #6480dc;
+    border: 2px solid #6480dc;
+}
+
+QSlider::groove:horizontal {
+    background: rgba(100, 130, 200, 100);
+    height: 3px;
+    border-radius: 2px;
+}
+QSlider::handle:horizontal {
+    background: #6480dc;
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    margin: -5px 0;
+}
+
+QPushButton#volButton, QPushButton#prevButton,
+QPushButton#nextButton, QPushButton#repeatButton,
+QPushButton#fileButton, QPushButton#playButton {
+    background: transparent;
+    border: none;
+    color: #3a4a8a;
+    font-size: 18px;
+    padding: 2px;
+    min-height: 0px;
+    min-width: 0px;
+}
+QPushButton#volButton:hover, QPushButton#prevButton:hover,
+QPushButton#nextButton:hover, QPushButton#repeatButton:hover,
+QPushButton#fileButton:hover, QPushButton#playButton:hover {
+    color: #6480dc;
+    background: transparent;
+}
+
+QLabel#timeLabel {
+    font-family: "Impact";
+    font-size: 48px;
+    font-weight: bold;
+    color: #2a3a7a;
+    border: none;
+}
+
+QPushButton#btnHeading, QPushButton#btnBullet, QPushButton#btnBold {
+    min-width: 30px;
+    max-width: 30px;
+    min-height: 30px;
+    max-height: 30px;
+    padding: 0px;
+    font-size: 13px;
+}
+
