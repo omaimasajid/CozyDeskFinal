@@ -36,8 +36,6 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     ui.btnHeading->setText("H");
     ui.btnBullet->setText("*");
     ui.btnDeleteNote->setText("Del");
-    ui.btnExportPdf->setText("PDF");
-    ui.btnExportTxt->setText("TXT");
 
 
     //music player stuffs
@@ -183,17 +181,16 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
 
     //notes 
 
-    m_notes = new Notes(ui.notesList, ui.noteEditor, ui.noteTitleEdit, this);
-    m_notes->setup();
+    notes = new Notes(ui.notesList, ui.noteEditor, ui.noteTitleEdit, this);
+    notes->setup();
 
-    connect(ui.btnNewNote, &QPushButton::clicked, m_notes, &Notes::newNote);
-    connect(ui.btnSave, &QPushButton::clicked, m_notes, &Notes::saveCurrentNote);
-    connect(ui.btnDeleteNote, &QPushButton::clicked, m_notes, &Notes::deleteCurrentNote);
-    connect(ui.btnExportPdf, &QPushButton::clicked, m_notes, &Notes::exportAsPdf);
-    connect(ui.btnExportTxt, &QPushButton::clicked, m_notes, &Notes::exportAsTxt);
-    connect(ui.btnBold, &QPushButton::clicked, m_notes, &Notes::toggleBold);
-    connect(ui.btnHeading, &QPushButton::clicked, m_notes, &Notes::insertHeading);
-    connect(ui.btnBullet, &QPushButton::clicked, m_notes, &Notes::insertBullet);
+    connect(ui.btnNewNote, &QPushButton::clicked, notes, &Notes::newNote);
+    connect(ui.btnSave, &QPushButton::clicked, notes, &Notes::saveCurrentNote);
+    connect(ui.btnDeleteNote, &QPushButton::clicked, notes, &Notes::deleteCurrentNote);
+    connect(ui.btnExportPdf, &QPushButton::clicked, notes, &Notes::exportAsPdf);
+    connect(ui.btnBold, &QPushButton::clicked, notes, &Notes::toggleBold);
+    connect(ui.btnHeading, &QPushButton::clicked, notes, &Notes::insertHeading);
+    connect(ui.btnBullet, &QPushButton::clicked, notes, &Notes::insertBullet);
 
 
 

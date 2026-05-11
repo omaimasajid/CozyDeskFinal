@@ -9,8 +9,10 @@
 class Notes : public QObject {
     Q_OBJECT
 public:
+    //constructor
     explicit Notes(QListWidget* list, QTextEdit* editor, QLineEdit* titleEdit, QObject* parent = nullptr);
-
+    
+    // a setup function that would run when program runs
     void setup();
 
 public slots:
@@ -18,7 +20,6 @@ public slots:
     void saveCurrentNote();
     void deleteCurrentNote();
     void exportAsPdf();
-    void exportAsTxt();
     void toggleBold();
     void insertHeading();
     void insertBullet();
@@ -34,9 +35,9 @@ private:
     QString notesDir() const;
     QString sanitize(const QString& name) const;
 
-    QListWidget* m_list;
-    QTextEdit* m_editor;
-    QLineEdit* m_titleEdit;
-    QString      m_currentNote;
-    QMap<QString, QString> m_notes;
+    QListWidget* list;
+    QTextEdit* editor;
+    QLineEdit* titleEdit;
+    QString currentNote;
+    QMap<QString, QString> notes; //special that holds 2 pair, first is the key which is the title, second string is the html file that is saved
 };

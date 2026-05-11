@@ -1,133 +1,174 @@
 #include "notes.h"
-#include <QDir>
-#include <QFile>
-#include <QTextStream>
-#include <QFileDialog>
-#include <QPrinter>
-#include <QStandardPaths>
-#include <QTextCharFormat>
+#include <QDir> //folder
+#include <QFile> //files (html)
+#include <QTextStream> //writing and reading files
+#include <QFileDialog> //save as windows
+#include <QPrinter> //pdf export
+#include <QStandardPaths> //locator to find the app data (safe place o save)
+#include <QTextCharFormat> 
 #include <QTextListFormat>
 #include <QTextCursor>
 #include <QFont>
-#include <QRegularExpression>
+#include <QRegularExpression> //for santizing
 
-Notes::Notes(QListWidget* list, QTextEdit* editor, QLineEdit* titleEdit, QObject* parent)
-    : QObject(parent), m_list(list), m_editor(editor), m_titleEdit(titleEdit) {
+Notes::Notes(QListWidget* list, QTextEdit* editor, QLineEdit* titleEdit, QObject* parent) //constructor taking pointors and then storing them in variable
+    : QObject(parent), list(list), editor(editor), titleEdit(titleEdit) {
 }
 
 void Notes::setup() {
-    connect(m_list, &QListWidget::currentItemChanged, this, &Notes::onNoteSelected);
-    connect(m_titleEdit, &QLineEdit::editingFinished, this, &Notes::onTitleChanged);
+    connect(list, &QListWidget::currentItemChanged, this, &Notes::onNoteSelected); //connects a signal from original class from qt to a slot
+    connect(titleEdit, &QLineEdit::editingFinished, this, &Notes::onTitleChanged);
 
     loadFromDisk();
-    if (m_notes.isEmpty()) newNote();
+    if (notes.isEmpty()) newNote();
 }
 
-// ── Helpers ───────────────────────────────
-
+// function to locate a suitable directory for storing notes, creates it if it doesn't exist, and returns the path
 QString Notes::notesDir() const {
-    QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/notes";
-    QDir().mkpath(path);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/notes"; //this is a function from qt that helps us find a safe direction such as documents or downloads
+    QDir().mkpath(path); //actually writes the pahs
     return path;
 }
 
+// function to sanitize note names for safe use as filenames by replacing invalid characters with underscores
 QString Notes::sanitize(const QString& name) const {
     QString s = name;
-    s.replace(QRegularExpression("[\\\\/:*?\"<>|]"), "_");
+	s.replace(QRegularExpression("[\\\\/:*?\"<>|]"), "_"); //replaces invalid filename characters with underscores
     return s;
 }
 
-// ── Note CRUD ─────────────────────────────
+
 
 void Notes::newNote() {
-    saveCurrentNote();
+    saveCurrentNote(); //saves the previous notes
     int idx = 1;
     QString name;
-    do { name = QString("Note %1").arg(idx++); } while (m_notes.contains(name));
-    m_notes[name] = "";
-    m_list->addItem(name);
-    m_list->setCurrentRow(m_list->count() - 1);
-    m_currentNote = name;
-    m_titleEdit->setText(name);
-    m_editor->clear();
-    m_editor->setFocus();
+
+    do {
+        name = QString("Note %1").arg(idx++);  // qt string formatting, the %1 is just a plceholder, the .arg() function tells that whatever is in %1 replace it with the argument in the closed brackets
+    } while (notes.contains(name));
+
+    notes[name] = "";
+
+    //the list block
+    list->addItem(name); //built in qt function, adds a new list entry to the widget qlist that we added
+    list->setCurrentRow(list->count() - 1); //upar wali row set kardo
+    currentNote = name;
+
+    //the title edit block
+    titleEdit->setText(name); //this is what actually sets in the name
+
+    // the text edit block
+    editor->clear(); //when new note is clicked, it clears away everything in the box
+    editor->setFocus(); //this solves issue of the cursor disappearing
 }
+
+
+// saving
 
 void Notes::saveCurrentNote() {
-    if (m_currentNote.isEmpty()) return;
-    QString html = m_editor->toHtml();
-    m_notes[m_currentNote] = html;
-    saveToDisk(m_currentNote, html);
+    if (currentNote.isEmpty()) return;
+
+    QString html = editor->toHtml();//this turns whatever text is in the text edit block into an html
+
+    notes[currentNote] = html;
+
+    saveToDisk(currentNote, html);//calling function that we built
 }
 
+//deleting
+
 void Notes::deleteCurrentNote() {
-    if (m_currentNote.isEmpty()) return;
+    if (currentNote.isEmpty()) return;
 
-    m_notes.remove(m_currentNote);
-    deleteFromDisk(m_currentNote);
+    notes.remove(currentNote);
+    deleteFromDisk(currentNote);
 
-    int row = m_list->currentRow();
+    int row = list->currentRow();
 
-    m_list->blockSignals(true);
-    delete m_list->currentItem();
-    m_list->blockSignals(false);
+    list->blockSignals(true);
+    delete list->currentItem();
+    list->blockSignals(false);
 
-    m_currentNote.clear();
-    m_editor->clear();
-    m_titleEdit->clear();
+    currentNote.clear();
+    editor->clear();
+    titleEdit->clear();
 
-    if (m_list->count() > 0) {
-        // prefer the same row (now the item below), fall back to row above
-        int nextRow = qMin(row, m_list->count() - 1);
-        m_list->setCurrentRow(nextRow);
-        QListWidgetItem* item = m_list->currentItem();
-        if (item) {
-            m_currentNote = item->text();
-            m_titleEdit->setText(m_currentNote);
-            m_editor->setHtml(m_notes.value(m_currentNote));
+    if (list->count() > 0) {
+        int nextRow = qMin(row, list->count() - 1);
+        list->setCurrentRow(nextRow);
+        QListWidgetItem* item = list->currentItem(); //another pointer that points to the lists current item
+        if (item) { //checks if it doenst point to an empty thing
+            //then continues setting the current notes to the item stuff
+            currentNote = item->text();
+            titleEdit->setText(currentNote);
+            editor->setHtml(notes.value(currentNote));
         }
     }
 
-    m_editor->setFocus();
+    editor->setFocus(); //forces cursor into text block
 }
+
+
+// switching notes
 
 void Notes::onNoteSelected(QListWidgetItem* current, QListWidgetItem* previous) {
-    Q_UNUSED(previous);
-    if (!current) return;
-    saveCurrentNote();
-    m_currentNote = current->text();
-    m_titleEdit->setText(m_currentNote);
-    m_editor->setHtml(m_notes.value(m_currentNote));
-    m_editor->setFocus();
+
+    Q_UNUSED(previous);//tells compiler not to give warning about old note because it was not being used, its a safe fail, prevents bugs
+
+    if (!current) return; //if current doesnt exist, stop here
+
+    saveCurrentNote(); //saves current note
+
+    //actual switching happens below
+
+    currentNote = current->text(); 
+    titleEdit->setText(currentNote);
+    editor->setHtml(notes.value(currentNote));
+    editor->setFocus();
 }
+
+
+//uses QFile Rename and renames the file name
 
 void Notes::onTitleChanged() {
-    QString newName = m_titleEdit->text().trimmed();
-    if (newName.isEmpty() || newName == m_currentNote) return;
-    QString html = m_notes.take(m_currentNote);
-    deleteFromDisk(m_currentNote);
-    m_notes[newName] = html;
-    if (m_list->currentItem())
-        m_list->currentItem()->setText(newName);
-    m_currentNote = newName;
-    saveToDisk(newName, html);
-    m_editor->setFocus();
+    QString newName = titleEdit->text().trimmed(); //this takes what we edited into the title edit and trims access
+    if (newName.isEmpty() || newName == currentNote) return; //failsafe
+
+    QString oldPath = notesDir() + "/" + sanitize(currentNote) + ".html";
+    QString newPath = notesDir() + "/" + sanitize(newName) + ".html";
+
+    //actual renaming process
+    if (QFile::rename(oldPath, newPath)) {
+        QString html = notes.take(currentNote);
+        notes[newName] = html;
+
+		//changes stuff in the list widget
+        if (list->currentItem())
+            list->currentItem()->setText(newName);
+        currentNote = newName;
+    }
+    editor->setFocus();
 }
 
-// ── Formatting ────────────────────────────
+
 
 void Notes::toggleBold() {
-    QTextCharFormat fmt;
-    fmt.setFontWeight(m_editor->fontWeight() == QFont::Bold ? QFont::Normal : QFont::Bold);
-    m_editor->textCursor().mergeCharFormat(fmt);
-    m_editor->setFocus();
+    QTextCharFormat fmt; //this is a format holder
+    fmt.setFontWeight(editor->fontWeight() == QFont::Bold ? QFont::Normal : QFont::Bold);
+    editor->textCursor().mergeCharFormat(fmt); //whatever highlighted by cursort
+    editor->setFocus();
 }
 
 void Notes::insertHeading() {
-    QTextCursor cursor = m_editor->textCursor();
+    QTextCursor cursor = editor->textCursor(); //making a vairable that holds the cursor's postion
+
+    // this makes it so the entire line remains selected when we click the ehaidng buton
     cursor.beginEditBlock();
-    cursor.movePosition(QTextCursor::StartOfBlock);
-    cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+
+    cursor.movePosition(QTextCursor::StartOfBlock); //wherever the cursor might be it tells the cursor to move to the start of the line
+
+    cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);//anchor thats like holding shift button
 
     QTextCharFormat fmt = cursor.charFormat();
 
@@ -145,24 +186,25 @@ void Notes::insertHeading() {
     }
 
     cursor.endEditBlock();
-    m_editor->setTextCursor(cursor);
-    m_editor->setFocus();
+
+    editor->setTextCursor(cursor);
+    editor->setFocus();
 }
 
 void Notes::insertBullet() {
-    QTextCursor cursor = m_editor->textCursor();
+    QTextCursor cursor = editor->textCursor();
     QTextListFormat fmt;
     fmt.setStyle(QTextListFormat::ListDisc);
     cursor.insertList(fmt);
-    m_editor->setTextCursor(cursor);
-    m_editor->setFocus();
+    editor->setTextCursor(cursor);
+    editor->setFocus();
 }
 
-// ── Disk I/O ──────────────────────────────
+
 
 void Notes::saveToDisk(const QString& name, const QString& html) {
     QFile file(notesDir() + "/" + sanitize(name) + ".html");
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) //tells the computer we also want to write text into the file, and taht the file will be text
         QTextStream(&file) << html;
 }
 
@@ -176,38 +218,31 @@ void Notes::loadFromDisk() {
         QFile file(dir.filePath(filename));
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) continue;
         QString name = filename;
-        name.chop(5);
-        m_notes[name] = QTextStream(&file).readAll();
-        m_list->addItem(name);
+        name.chop(5); //removes the .html (5 letters)
+        notes[name] = QTextStream(&file).readAll();
+        list->addItem(name);
     }
-    if (!m_notes.isEmpty()) {
-        m_list->setCurrentRow(0);
-        m_currentNote = m_list->item(0)->text();
-        m_titleEdit->setText(m_currentNote);
-        m_editor->setHtml(m_notes[m_currentNote]);
-        m_editor->setFocus();
+    if (!notes.isEmpty()) {
+        list->setCurrentRow(0);
+        currentNote = list->item(0)->text();
+        titleEdit->setText(currentNote);
+        editor->setHtml(notes[currentNote]);
+        editor->setFocus();
     }
 }
 
 void Notes::exportAsPdf() {
-    if (m_currentNote.isEmpty()) return;
+    if (currentNote.isEmpty()) return;
+
     QString path = QFileDialog::getSaveFileName(nullptr, "Export as PDF",
-        m_currentNote + ".pdf", "PDF files (*.pdf)");
+        currentNote + ".pdf", "PDF files (*.pdf)");
+
+    //if user closes window
     if (path.isEmpty()) return;
+
     QPrinter printer(QPrinter::HighResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName(path);
-    m_editor->document()->print(&printer);
-    m_editor->setFocus();
-}
-
-void Notes::exportAsTxt() {
-    if (m_currentNote.isEmpty()) return;
-    QString path = QFileDialog::getSaveFileName(nullptr, "Export as Text",
-        m_currentNote + ".txt", "Text files (*.txt)");
-    if (path.isEmpty()) return;
-    QFile file(path);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
-        QTextStream(&file) << m_editor->toPlainText();
-    m_editor->setFocus();
+    editor->document()->print(&printer);
+    editor->setFocus();
 }

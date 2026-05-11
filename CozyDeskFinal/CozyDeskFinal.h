@@ -20,7 +20,7 @@ private:
     MusicPlayer* MP;
     petwidget* pet;
     PomodoroTimer* PT;
-    Notes* m_notes;
+    Notes* notes;
     QMediaPlayer* alarmPlayer;
     QAudioOutput* alarmOutput;
     bool repeatOn;

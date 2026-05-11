@@ -606,27 +606,14 @@ color: black;
     <widget class="QPushButton" name="btnExportPdf">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>380</y>
-       <width>51</width>
+       <x>20</x>
+       <y>370</y>
+       <width>121</width>
        <height>21</height>
       </rect>
      </property>
      <property name="text">
-      <string>PushButton</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnExportTxt">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>380</y>
-       <width>51</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>PushButton</string>
+      <string>Save As PDF</string>
      </property>
     </widget>
     <widget class="QPushButton" name="btnHeading">
