@@ -1,7 +1,14 @@
 QMainWindow {
-    background-image: url(petsprites/bg.jpg);
+    background-image: url(petsprites/bg.jpeg);
     background-repeat: no-repeat;
     background-position: center;
+}
+
+
+QMainWindow, QWidget {
+    color: #1a1a3e;
+    font-family: "Segoe UI";
+    font-size: 13px;
 }
 
 QFrame {
@@ -19,8 +26,14 @@ QPushButton {
     padding: 4px 12px;
     min-height: 22px;
 }
-QPushButton:hover { background: rgba(110, 140, 210, 220); }
-QPushButton:pressed { background: rgba(80, 110, 190, 255); }
+
+    QPushButton:hover {
+        background: rgba(110, 140, 210, 220);
+    }
+
+    QPushButton:pressed {
+        background: rgba(80, 110, 190, 255);
+    }
 
 QTextEdit, QLineEdit, QSpinBox, QTimeEdit {
     background: rgba(235, 238, 255, 160);
@@ -30,7 +43,10 @@ QTextEdit, QLineEdit, QSpinBox, QTimeEdit {
     padding: 4px;
 }
 
-QSpinBox, QTimeEdit { border-radius: 6px; padding: 2px; }
+QSpinBox, QTimeEdit {
+    border-radius: 6px;
+    padding: 2px;
+}
 
 QListWidget {
     background: rgba(225, 230, 250, 150);
@@ -38,11 +54,12 @@ QListWidget {
     border-radius: 8px;
     color: #1a1a3e;
 }
-QListWidget::item:selected {
-    background: rgba(130, 160, 220, 180);
-    color: #ffffff;
-    border-radius: 4px;
-}
+
+    QListWidget::item:selected {
+        background: rgba(130, 160, 220, 180);
+        color: #ffffff;
+        border-radius: 4px;
+    }
 
 QComboBox {
     background: rgba(210, 218, 245, 180);
@@ -59,23 +76,25 @@ QLabel, QCheckBox, QRadioButton {
     color: #1a1a3e;
 }
 
-QRadioButton::indicator {
-    width: 13px;
-    height: 13px;
-    border-radius: 7px;
-    border: 2px solid rgba(100, 130, 200, 200);
-    background: white;
-}
-QRadioButton::indicator:checked {
-    background: #6480dc;
-    border: 2px solid #6480dc;
-}
+    QRadioButton::indicator {
+        width: 13px;
+        height: 13px;
+        border-radius: 7px;
+        border: 2px solid rgba(100, 130, 200, 200);
+        background: white;
+    }
+
+        QRadioButton::indicator:checked {
+            background: #6480dc;
+            border: 2px solid #6480dc;
+        }
 
 QSlider::groove:horizontal {
     background: rgba(100, 130, 200, 100);
     height: 3px;
     border-radius: 2px;
 }
+
 QSlider::handle:horizontal {
     background: #6480dc;
     width: 12px;
@@ -95,16 +114,25 @@ QPushButton#fileButton, QPushButton#playButton {
     min-height: 0px;
     min-width: 0px;
 }
-QPushButton#volButton:hover, QPushButton#prevButton:hover,
-QPushButton#nextButton:hover, QPushButton#repeatButton:hover,
-QPushButton#fileButton:hover, QPushButton#playButton:hover {
-    color: #6480dc;
-    background: transparent;
-}
+
+    QPushButton#volButton:hover, QPushButton#prevButton:hover,
+    QPushButton#nextButton:hover, QPushButton#repeatButton:hover,
+    QPushButton#fileButton:hover, QPushButton#playButton:hover {
+        color: #6480dc;
+        background: transparent;
+    }
 
 QLabel#timeLabel {
     font-family: "Impact";
     font-size: 48px;
+    font-weight: bold;
+    color: #2a3a7a;
+    border: none;
+}
+
+QLabel#TimerLabel, QLabel#NoteLabel, QLabel#ToDoLabel {
+    font-family: "Impact";
+    font-size: 22px;
     font-weight: bold;
     color: #2a3a7a;
     border: none;
@@ -118,4 +146,3 @@ QPushButton#btnHeading, QPushButton#btnBullet, QPushButton#btnBold {
     padding: 0px;
     font-size: 13px;
 }
-

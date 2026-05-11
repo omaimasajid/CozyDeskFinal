@@ -22,7 +22,7 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     // background
 
     QPalette palette;
-    palette.setBrush(QPalette::Window, QPixmap("petsprites/bg.jpg").scaled(size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    palette.setBrush(QPalette::Window, QPixmap("petsprites/bg.jpeg").scaled(size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     setPalette(palette);
 
     // this is the alarm
