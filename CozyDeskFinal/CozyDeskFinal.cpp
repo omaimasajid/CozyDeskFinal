@@ -36,7 +36,6 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     ui.btnHeading->setText("H");
     ui.btnBullet->setText("*");
     ui.btnDeleteNote->setText("Del");
-    ui.btnSave->setText("Save");
     ui.btnExportPdf->setText("PDF");
     ui.btnExportTxt->setText("TXT");
 

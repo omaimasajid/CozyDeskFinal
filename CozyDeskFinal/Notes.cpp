@@ -62,12 +62,33 @@ void Notes::saveCurrentNote() {
 
 void Notes::deleteCurrentNote() {
     if (m_currentNote.isEmpty()) return;
+
     m_notes.remove(m_currentNote);
     deleteFromDisk(m_currentNote);
+
+    int row = m_list->currentRow();
+
+    m_list->blockSignals(true);
     delete m_list->currentItem();
+    m_list->blockSignals(false);
+
     m_currentNote.clear();
     m_editor->clear();
     m_titleEdit->clear();
+
+    if (m_list->count() > 0) {
+        // prefer the same row (now the item below), fall back to row above
+        int nextRow = qMin(row, m_list->count() - 1);
+        m_list->setCurrentRow(nextRow);
+        QListWidgetItem* item = m_list->currentItem();
+        if (item) {
+            m_currentNote = item->text();
+            m_titleEdit->setText(m_currentNote);
+            m_editor->setHtml(m_notes.value(m_currentNote));
+        }
+    }
+
+    m_editor->setFocus();
 }
 
 void Notes::onNoteSelected(QListWidgetItem* current, QListWidgetItem* previous) {
@@ -77,6 +98,7 @@ void Notes::onNoteSelected(QListWidgetItem* current, QListWidgetItem* previous) 
     m_currentNote = current->text();
     m_titleEdit->setText(m_currentNote);
     m_editor->setHtml(m_notes.value(m_currentNote));
+    m_editor->setFocus();
 }
 
 void Notes::onTitleChanged() {
@@ -89,6 +111,7 @@ void Notes::onTitleChanged() {
         m_list->currentItem()->setText(newName);
     m_currentNote = newName;
     saveToDisk(newName, html);
+    m_editor->setFocus();
 }
 
 // ── Formatting ────────────────────────────
@@ -97,6 +120,7 @@ void Notes::toggleBold() {
     QTextCharFormat fmt;
     fmt.setFontWeight(m_editor->fontWeight() == QFont::Bold ? QFont::Normal : QFont::Bold);
     m_editor->textCursor().mergeCharFormat(fmt);
+    m_editor->setFocus();
 }
 
 void Notes::insertHeading() {
@@ -108,14 +132,12 @@ void Notes::insertHeading() {
     QTextCharFormat fmt = cursor.charFormat();
 
     if (fmt.fontPointSize() == 22 && fmt.fontWeight() == QFont::Bold) {
-        // already a heading, revert to normal
         QTextCharFormat normal;
         normal.setFontPointSize(10);
         normal.setFontWeight(QFont::Normal);
         cursor.mergeCharFormat(normal);
     }
     else {
-        // apply heading
         QTextCharFormat heading;
         heading.setFontPointSize(22);
         heading.setFontWeight(QFont::Bold);
@@ -124,6 +146,7 @@ void Notes::insertHeading() {
 
     cursor.endEditBlock();
     m_editor->setTextCursor(cursor);
+    m_editor->setFocus();
 }
 
 void Notes::insertBullet() {
@@ -132,6 +155,7 @@ void Notes::insertBullet() {
     fmt.setStyle(QTextListFormat::ListDisc);
     cursor.insertList(fmt);
     m_editor->setTextCursor(cursor);
+    m_editor->setFocus();
 }
 
 // ── Disk I/O ──────────────────────────────
@@ -161,6 +185,7 @@ void Notes::loadFromDisk() {
         m_currentNote = m_list->item(0)->text();
         m_titleEdit->setText(m_currentNote);
         m_editor->setHtml(m_notes[m_currentNote]);
+        m_editor->setFocus();
     }
 }
 
@@ -173,6 +198,7 @@ void Notes::exportAsPdf() {
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName(path);
     m_editor->document()->print(&printer);
+    m_editor->setFocus();
 }
 
 void Notes::exportAsTxt() {
@@ -183,4 +209,5 @@ void Notes::exportAsTxt() {
     QFile file(path);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
         QTextStream(&file) << m_editor->toPlainText();
+    m_editor->setFocus();
 }
