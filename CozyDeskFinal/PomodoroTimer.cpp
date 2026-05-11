@@ -6,10 +6,10 @@ PomodoroTimer::PomodoroTimer(QObject* p) : QObject(p) {
 	minutes = 0;
 	seconds = 0;
 
-	connect(T, &QTimer::timeout, this, &PomodoroTimer::onTick);
+	connect(T, &QTimer::timeout, this, &PomodoroTimer::tickTock);
 }
 
-void PomodoroTimer::onTick() {
+void PomodoroTimer::tickTock() {
 	seconds--;
 	if (seconds < 0) {
 		seconds = 59;

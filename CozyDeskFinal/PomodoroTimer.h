@@ -15,7 +15,7 @@ signals:
 	void changeTime(QString time);
 	void playSound();
 private slots:
-	void onTick();
+	void tickTock();
 private:
 	QTimer* T;
 	int minutes, seconds;
