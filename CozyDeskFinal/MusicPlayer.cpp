@@ -10,9 +10,9 @@ MusicPlayer::MusicPlayer(QObject* p) : QObject(p) {
 
 	// qt internally does smt > class reacts > passed to ui
 
-	connect(mp, &QMediaPlayer::positionChanged, this, &MusicPlayer::positionChange);
-	connect(mp, &QMediaPlayer::durationChanged, this, &MusicPlayer::durationChange);
-	connect(mp, &QMediaPlayer::sourceChanged, this, [this](const QUrl& url) {
+	connect(mp, &QMediaPlayer::positionChanged, this, &MusicPlayer::positionChange); // song playing
+	connect(mp, &QMediaPlayer::durationChanged, this, &MusicPlayer::durationChange); // new song uploads with total duration 
+	connect(mp, &QMediaPlayer::sourceChanged, this, [this](const QUrl& url) {  // new song file 
 		emit songChange(url.fileName());  //emit manually fires signaks
 		});
 	 
