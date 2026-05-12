@@ -25,10 +25,7 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     palette.setBrush(QPalette::Window, QPixmap("petsprites/bg.jpeg").scaled(size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     setPalette(palette);
 
-    // this is the alarm
-    alarmPlayer = new QMediaPlayer(this);
-    alarmOutput = new QAudioOutput(this);
-    alarmPlayer->setAudioOutput(alarmOutput);
+    
 
   //stuff for he buttons
     ui.btnNewNote->setText("New");
@@ -43,6 +40,9 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
     MP = new MusicPlayer(this);
     ui.volSlider->hide();
     ui.playButton->setText("▶");
+
+
+    // user does smt > code reacts
 
     connect(ui.fileButton, &QPushButton::clicked, this, [this]() {
         QStringList files = QFileDialog::getOpenFileNames(this, "Select a song", "",
@@ -105,7 +105,8 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
         ui.playerSlider->setMaximum(1000);
         });
 
-   
+
+   // song changes > update the dropdown menu > dont trigger extra plays
     connect(MP, &MusicPlayer::songChange, this, [this](QString n) {
         ui.songDropdown->blockSignals(true);
         ui.songDropdown->setCurrentIndex(MP->getSongIndex());
@@ -114,7 +115,9 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
 
 
     connect(ui.repeatButton, &QPushButton::clicked, this, [this]() {
+        //for music player
         MP->toggleRepeat();
+        //for button color
         repeatOn = !repeatOn;
         if (repeatOn) {
             ui.repeatButton->setStyleSheet(
@@ -141,6 +144,10 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
 
 
     // timer stuffs
+
+    alarmPlayer = new QMediaPlayer(this);
+    alarmOutput = new QAudioOutput(this);
+    alarmPlayer->setAudioOutput(alarmOutput);
 
     PT = new PomodoroTimer(this);
 
@@ -198,9 +205,10 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
 
     connect(ui.addTask, &QPushButton::clicked, this, [this]() {
         QString task = ui.taskInput->text();
-        if (task.isEmpty()) return;
-        QListWidgetItem* item = new QListWidgetItem(task);
-        item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+        if (task.isEmpty()) 
+            return;
+        QListWidgetItem* item = new QListWidgetItem(task);  //creates like a row 
+        item->setFlags(item->flags() | Qt::ItemIsUserCheckable); //adds checkbox
         item->setCheckState(Qt::Unchecked);
         ui.taskList->addItem(item);
         ui.taskInput->clear();

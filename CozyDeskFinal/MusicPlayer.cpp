@@ -8,14 +8,17 @@ MusicPlayer::MusicPlayer(QObject* p) : QObject(p) {
 	check = false;
 	isRepeat = false;
 
+	// qt internally does smt > class reacts > passed to ui
 
 	connect(mp, &QMediaPlayer::positionChanged, this, &MusicPlayer::positionChange);
 	connect(mp, &QMediaPlayer::durationChanged, this, &MusicPlayer::durationChange);
 	connect(mp, &QMediaPlayer::sourceChanged, this, [this](const QUrl& url) {
-		emit songChange(url.fileName());
+		emit songChange(url.fileName());  //emit manually fires signaks
 		});
-
+	 
+							//when song status is changed					//tells what changed
 	connect(mp, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
+							//when song ends		and repeat is enabled
 		if (status == QMediaPlayer::EndOfMedia && isRepeat) {
 			mp->setPosition(0);
 			mp->play();
@@ -23,18 +26,22 @@ MusicPlayer::MusicPlayer(QObject* p) : QObject(p) {
 		});
 }
 
+// duration() givs song length in millisec
+
 void MusicPlayer::setMusicSlider(int v) {
 	mp->setPosition(v * (mp->duration()/1000));
 }
 
 void MusicPlayer::setVolume(int v) {
 	float value;
-	value = v / 100.0;
+	value = v / 100.0;    // between 0.0 - 0.1
 	ao->setVolume(value);
 }
 
 void MusicPlayer::playSong() {
 	mp->play();
+
+	//pet
 	if (check == true) {
 		emit isplaying(true);
 	}
@@ -42,6 +49,7 @@ void MusicPlayer::playSong() {
 
 void MusicPlayer::pauseSong() {
 	mp->pause();
+	//pet
 	emit isplaying(false);
 }
 
@@ -50,6 +58,8 @@ void MusicPlayer::nextSong() {
 	if (songIndex >= playlist.size()) {
 		songIndex = 0;
 	}
+
+	//		file string conversion to qurl obj, get file path at index..
 	mp->setSource(QUrl::fromLocalFile(playlist[songIndex]));
 	mp->play();
 }
@@ -72,6 +82,7 @@ void MusicPlayer::loadfiles(QStringList f) {
 		playlist = f;
 		songIndex = 0;
 		mp->setSource(QUrl::fromLocalFile(playlist[songIndex]));
+		//pet
 		check = true;
 	}
 }

@@ -20,7 +20,7 @@ public:
 	void playSongAt(int i);
 	int getSongIndex();
 	void toggleRepeat();
-	qint64 getDuration();
+	qint64 getDuration();   //qint64 datatype for large nums, used for millisec
 signals:
 	void positionChange(qint64 p);
 	void durationChange(qint64 d);
