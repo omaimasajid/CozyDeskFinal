@@ -208,7 +208,7 @@ CozyDeskFinal::CozyDeskFinal(QWidget* parent)
         if (task.isEmpty()) 
             return;
         QListWidgetItem* item = new QListWidgetItem(task);  //creates like a row 
-        item->setFlags(item->flags() | Qt::ItemIsUserCheckable); //adds checkbox
+        item->setFlags(item->flags() | Qt::ItemIsUserCheckable); //  flag puts on/off & adds checkbox
         item->setCheckState(Qt::Unchecked);
         ui.taskList->addItem(item);
         ui.taskInput->clear();
