@@ -16,6 +16,7 @@ MusicPlayer::MusicPlayer(QObject* p) : QObject(p) {
 		emit songChange(url.fileName());  //emit manually fires signaks
 		});
 	 
+	
 							//when song status is changed					//tells what changed
 	connect(mp, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
 							//when song ends		and repeat is enabled
