@@ -1,4 +1,9 @@
 <RCC>
-    <qresource prefix="CozyDeskFinal">
+    <qresource prefix="/CozyDeskFinal">
+        <file>petsprites/bg.jpeg</file>
+        <file>petsprites/hover.png</file>
+        <file>petsprites/idle.png</file>
+        <file>petsprites/music.png</file>
+        <file>style.qss</file>
     </qresource>
 </RCC>
